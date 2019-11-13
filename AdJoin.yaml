@@ -37,11 +37,6 @@ Parameters:
     Description: Bucket prefix for domain join association's logs
     Default: ""
 
-  CustomImplementationTag:
-    Type: String
-    Default: ""
-    Description: Custom ID provided by Tamedia IT for specific implementation, if any
-
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -51,9 +46,7 @@ Metadata:
           - DomainJoinAdministrators
           - DomainJoinTagName
           - DomainJoinTagValues
-      - Label: { default: Custom implementations }
-        Parameters:
-          - CustomImplementationTag
+     
       - Label: { default: Logging }
         Parameters:
           - DomainJoinLogBucketName
@@ -72,8 +65,7 @@ Metadata:
         default: Domain join bucket
       DomainJoinLogBucketPrefix:
         default: Domain join bucket prefix
-      CustomImplementationTag:
-        default: Tag
+
 
 Conditions:
   DomainJoinWindowsMachines: !Equals [ !Ref DomainJoinWindowsMachines, "yes" ]
