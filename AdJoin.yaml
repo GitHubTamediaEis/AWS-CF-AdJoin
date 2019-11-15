@@ -75,11 +75,9 @@ Conditions:
 Mappings: 
   RegionMap: 
     eu-west-1: 
-      "ClientAttachmentSNSARN": "arn:aws:sns:eu-west-1:733626620836:ClientAttachmentCustomResource"
       "MediaItResolverRuleId": "rslvr-rr-19d7f32e7a0a41959"
 
     eu-central-1: 
-      "ClientAttachmentSNSARN": "arn:aws:sns:eu-central-1:733626620836:ClientAttachmentCustomResource"
       "MediaItResolverRuleId": "Sorry, mediait.ch resolution is currently not available in region eu-central-1."
 
 
