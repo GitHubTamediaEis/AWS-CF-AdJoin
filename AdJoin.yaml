@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Allow AD group to connect to instances
+Description: Allow AD groups users to connect to instances. !!! You need to deploy VPC from the Service Catalog before using this item.
 
 Parameters:
 
@@ -36,6 +36,7 @@ Parameters:
     Type: String
     Description: Bucket prefix for domain join association's logs
     Default: ""
+
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -92,7 +93,7 @@ Resources:
     Properties: 
       Name: MediaItDnsRuleAssociation
       ResolverRuleId: !FindInMap [RegionMap, !Ref "AWS::Region", MediaItResolverRuleId]
-      VPCId: !Ref Vpc
+      VPCId: !ImportValue SC-VPC
 
 # Domain join related resources
 
