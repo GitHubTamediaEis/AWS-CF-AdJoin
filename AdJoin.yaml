@@ -3,15 +3,6 @@ Description: Allow AD groups users to connect to instances. !!! You need to depl
 
 Parameters:
 
-  DomainJoinWindowsMachines:
-    Type: String
-    Default: "no"
-    Description: Do you need to join windows machines to the active directory (mediait.ch) (NO/yes) 
-    AllowedValues: 
-      - "yes"
-      - "no"
-    ConstraintDescription: Value must be either "yes" or "no".
-
   DomainJoinAdministrators:
     Type: CommaDelimitedList
     Default: ""
@@ -43,7 +34,6 @@ Metadata:
     ParameterGroups:
       - Label: { default: Active Directory }
         Parameters:
-          - DomainJoinWindowsMachines
           - DomainJoinAdministrators
           - DomainJoinTagName
           - DomainJoinTagValues
@@ -54,8 +44,6 @@ Metadata:
           - DomainJoinLogBucketPrefix
 
     ParameterLabels:
-      DomainJoinWindowsMachines:
-        default: Domain join
       DomainJoinAdministrators:
         default: Administrators
       DomainJoinTagName:
@@ -69,8 +57,7 @@ Metadata:
 
 
 Conditions:
-  DomainJoinWindowsMachines: !Equals [ !Ref DomainJoinWindowsMachines, "yes" ]
-  DomainJoinCreateS3Bucket: !And [!Equals [ !Ref DomainJoinLogBucketName, "" ], !Condition DomainJoinWindowsMachines]
+  DomainJoinCreateS3Bucket: !Equals [ !Ref DomainJoinLogBucketName, "" ]
 
 Mappings: 
   RegionMap: 
@@ -86,7 +73,6 @@ Resources:
 # Associate mediait.ch DNS reslover rule if needed
 
   AssociateMediaItResolverRule:
-    Condition: DomainJoinWindowsMachines
     Type: AWS::Route53Resolver::ResolverRuleAssociation
     Properties: 
       Name: MediaItDnsRuleAssociation
@@ -97,7 +83,6 @@ Resources:
 
   AdJoin:
     Type: Custom::AdJoin
-    Condition: DomainJoinWindowsMachines
     Properties:
       ServiceToken: arn:aws:sns:eu-west-1:733626620836:ActiveDirectoryJoin
 
@@ -113,7 +98,6 @@ Resources:
   
   DomainJoinDocument:
       Type: AWS::SSM::Document
-      Condition: DomainJoinWindowsMachines
       Properties:
         DocumentType: Command
         Content:
@@ -195,7 +179,6 @@ Resources:
 
   DomainJoinAssociation:
     Type: AWS::SSM::Association
-    Condition: DomainJoinWindowsMachines
     Properties:
       OutputLocation:
         S3Location:
