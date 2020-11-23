@@ -138,7 +138,7 @@ Resources:
               - !Sub
                 - |
                   # Retrieve needed value
-                  $additionalAdmins='${AdditionalLocalAdmins}'
+                  $additionalAdmins='${DomainJoinAdministrators}'
                   $defaultAdmin='${DefaultAdmin}'
                   $userName='${AdJoin.UserName}'
                   $password='${AdJoin.Password}'
@@ -170,7 +170,6 @@ Resources:
                   $diff | ? {$_.SideIndicator -eq '=>'} | % {
                       $localAdminGroup.add('WinNT://'+$_.Value)
                   }
-                - {AdditionalLocalAdmins: !Join [',', !Ref DomainJoinAdministrators], DefaultAdmin: !ImportValue AdministratorAdGroupName}
           - action: aws:applications
             name: installLaps
             inputs:
