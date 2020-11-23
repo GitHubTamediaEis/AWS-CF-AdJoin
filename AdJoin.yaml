@@ -135,8 +135,7 @@ Resources:
               - Windows
             inputs:
               runCommand:
-              - !Sub
-                - |
+              - !Sub |
                   # Retrieve needed value
                   $additionalAdmins='${DomainJoinAdministrators}'
                   $defaultAdmin='${DefaultAdmin}'
