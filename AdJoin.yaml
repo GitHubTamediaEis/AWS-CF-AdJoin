@@ -139,7 +139,6 @@ Resources:
                 - |
                   # Retrieve needed value
                   $additionalAdmins='${AdditionalLocalAdmins}'
-                  $defaultAdmin='${DefaultAdmin}'
                   $userName='${AdJoin.UserName}'
                   $password='${AdJoin.Password}'
                   $domainName=$userName.split('@')[1]
@@ -148,7 +147,7 @@ Resources:
                   $searcher = New-Object -TypeName System.DirectoryServices.DirectorySearcher
                   $searcher.SearchRoot = $Domain
                   # Build up the list of admins SID to add
-                  $newAdmins=@($defaultAdmin)
+                  $newAdmins=@()
                   if($additionalAdmins){
                       $newAdmins += $additionalAdmins[0].Value -split ',' | % {$_.Trim()}
                   }
@@ -170,7 +169,7 @@ Resources:
                   $diff | ? {$_.SideIndicator -eq '=>'} | % {
                       $localAdminGroup.add('WinNT://'+$_.Value)
                   }
-                - {AdditionalLocalAdmins: !Join [',', !Ref DomainJoinAdministrators], DefaultAdmin: !ImportValue AdministratorAdGroupName}
+                - {AdditionalLocalAdmins: !Join [',', !Ref DomainJoinAdministrators]}
           - action: aws:applications
             name: installLaps
             inputs:
