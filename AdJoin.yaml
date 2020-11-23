@@ -170,7 +170,7 @@ Resources:
                   $diff | ? {$_.SideIndicator -eq '=>'} | % {
                       $localAdminGroup.add('WinNT://'+$_.Value)
                   }
-                - {AdditionalLocalAdmins: !Join [',', !Ref DomainJoinAdministrators]}
+                - {AdditionalLocalAdmins: !Join [',', !Ref DomainJoinAdministrators], DefaultAdmin: !ImportValue AdministratorAdGroupName}
           - action: aws:applications
             name: installLaps
             inputs:
